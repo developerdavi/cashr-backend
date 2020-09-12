@@ -9,7 +9,8 @@ export default async (req: NowRequest, res: NowResponse) : Promise<void> => {
     const user = await User.create({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      role: 'user'
     });
 
     res.json(user);
