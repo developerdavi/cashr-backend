@@ -16,7 +16,7 @@ export default function withAuth(handler: NowApiHandler, options: Options) : Now
         });
       }
 
-      const token = req.headers['authorization'].replace('Bearer', '');
+      const token = req.headers['authorization'].replace('Bearer', '').trim();
 
       let data : IUser;
 
@@ -43,7 +43,7 @@ export default function withAuth(handler: NowApiHandler, options: Options) : Now
           error: 'You shouldn\'t be here'
         });
       }
-  
+
       handler(req, res);
     } catch (error) {
       res.status(500).json({
