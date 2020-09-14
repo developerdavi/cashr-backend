@@ -7,7 +7,7 @@ type Options = {
   admin: boolean
 }
 
-export default function withAuth(handler: NowApiHandler, options: Options) : NowApiHandler {
+export default function withAuth(handler: NowApiHandler, options: Options): NowApiHandler {
   return async (req: NowRequest, res: NowResponse) => {
     try {
       if (!req.headers['authorization']) {
@@ -43,12 +43,12 @@ export default function withAuth(handler: NowApiHandler, options: Options) : Now
           error: 'You shouldn\'t be here'
         });
       }
-
-      handler(req, res);
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         error: error.message
       });
     }
+
+    return handler(req, res);
   };
 }
