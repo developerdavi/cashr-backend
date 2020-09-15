@@ -1,4 +1,4 @@
-import { Schema, model, SchemaTypes } from 'mongoose';
+import { Schema, model, SchemaTypes, Model, Document } from 'mongoose';
 import modelExists from '../helpers/modelExists';
 
 const schema = new Schema({
@@ -14,6 +14,11 @@ const schema = new Schema({
   timestamps: true
 });
 
-const CustomCategory = modelExists('custom_categories') ? model('custom_categories') : model('custom_categories', schema);
+export interface ICustomCategory extends Document {
+  name: string;
+  owner: string;
+}
+
+const CustomCategory: Model<ICustomCategory> = modelExists('custom_categories') ? model('custom_categories') : model('custom_categories', schema);
 
 export default CustomCategory;
