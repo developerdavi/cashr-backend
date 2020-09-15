@@ -7,6 +7,11 @@ import Database from '../../../services/mongodb';
 export default withAuth(async (req, res, user) : Promise<void> => {
   useCors(req, res);
 
+  if (req.method === 'OPTIONS') {
+    res.end();
+    return;
+  }
+
   await Database.connect();
 
   try {

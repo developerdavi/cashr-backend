@@ -20,6 +20,11 @@ const userSchema = Yup.object().shape({
 export default async (req: NowRequest, res: NowResponse): Promise<void> => {
   useCors(req, res);
 
+  if (req.method === 'OPTIONS') {
+    res.end();
+    return;
+  }
+
   const { email, password }: body = req.body;
 
   if (!email || !password) {

@@ -6,6 +6,11 @@ import Database from '../../../services/mongodb';
 export default async (req: NowRequest, res: NowResponse) : Promise<void> => {
   useCors(req, res);
 
+  if (req.method === 'OPTIONS') {
+    res.end();
+    return;
+  }
+
   await Database.connect();
 
   try {

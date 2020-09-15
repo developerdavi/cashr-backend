@@ -7,7 +7,7 @@ type Options = {
 
 export default function useCors(req: NowRequest, res: NowResponse, options: Options = {}): void {
   const {
-    methods = ['GET', 'POST', 'PUT', 'DELETE']
+    methods = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
   } = options;
 
   Cors({ methods })(req, res, (result) => {
