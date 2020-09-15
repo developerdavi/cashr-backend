@@ -1,8 +1,8 @@
 import { NowRequest, NowResponse } from '@vercel/node';
-import useCors from '../../../helpers/useCors';
-import withAuth from '../../../middlewares/withAuth';
+import useCors from '../../../middlewares/useCors';
 import User from '../../../models/user';
 import Database from '../../../services/mongodb';
+import withAuth from '../../../middlewares/withAuth';
 
 export default withAuth(async (req: NowRequest, res: NowResponse) : Promise<void> => {
   await Database.connect();

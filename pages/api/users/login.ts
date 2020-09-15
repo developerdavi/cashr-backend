@@ -1,6 +1,6 @@
 import { NowRequest, NowResponse } from '@vercel/node';
 import * as Yup from 'yup';
-import useCors from '../../../helpers/useCors';
+import useCors from '../../../middlewares/useCors';
 import User from '../../../models/user';
 import Database from '../../../services/mongodb';
 
