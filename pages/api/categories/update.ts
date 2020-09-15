@@ -1,18 +1,18 @@
-import { NowRequest, NowResponse } from '@vercel/node';
 import useCors from '../../../middlewares/useCors';
 import withAuth from '../../../middlewares/withAuth';
 import Category from '../../../models/category';
 import Database from '../../../services/mongodb';
 
-export default withAuth(async (req: NowRequest, res: NowResponse) : Promise<void> => {
+export default withAuth(async (req, res): Promise<void> => {
   useCors(req, res);
 
   await Database.connect();
 
   try {
-    const category = await Category.create({
-      name: req.body.name
-    });
+    const category = await Category.findById(req.body._id);
+
+    category.name = req.body.name;
+    await category.save();
 
     res.json(category);
   } catch (error) {

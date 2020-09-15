@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document, Model } from 'mongoose';
 import modelExists from '../helpers/modelExists';
 
 const schema = new Schema({
@@ -11,6 +11,10 @@ const schema = new Schema({
   timestamps: true
 });
 
-const Category = modelExists('categories') ? model('categories') : model('categories', schema);
+export interface ICategory extends Document {
+  name: string;
+}
+
+const Category: Model<ICategory> = modelExists('categories') ? model('categories') : model('categories', schema);
 
 export default Category;

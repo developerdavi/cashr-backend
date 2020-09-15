@@ -1,5 +1,5 @@
 import { NowRequest, NowResponse } from '@vercel/node';
-import useCors from '../../../helpers/useCors';
+import useCors from '../../../middlewares/useCors';
 import Category from '../../../models/category';
 import Database from '../../../services/mongodb';
 
