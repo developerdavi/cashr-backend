@@ -1,12 +1,14 @@
-import { NowRequest, NowResponse } from '@vercel/node';
+import withAuth from '../../../middlewares/withAuth';
 import Transaction from '../../../models/transaction';
 import Database from '../../../services/mongodb';
 
-export default async (req: NowRequest, res: NowResponse) : Promise<void> => {
+export default withAuth(async (req, res, user) : Promise<void> => {
   await Database.connect();
 
   try {
-    const transactions = await Transaction.find(req.query);
+    const transactions = await Transaction.find({
+      owner: user.id
+    });
 
     res.json(transactions);
   } catch (error) {
@@ -14,4 +16,4 @@ export default async (req: NowRequest, res: NowResponse) : Promise<void> => {
       error: error.message
     });
   }
-};
+});

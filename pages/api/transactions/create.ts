@@ -1,9 +1,9 @@
-import { NowRequest, NowResponse } from '@vercel/node';
-import useCors from '../../../helpers/useCors';
+import useCors from '../../../middlewares/useCors';
+import withAuth from '../../../middlewares/withAuth';
 import Transaction from '../../../models/transaction';
 import Database from '../../../services/mongodb';
 
-export default async (req: NowRequest, res: NowResponse) : Promise<void> => {
+export default withAuth(async (req, res, user) : Promise<void> => {
   useCors(req, res);
 
   await Database.connect();
@@ -13,7 +13,8 @@ export default async (req: NowRequest, res: NowResponse) : Promise<void> => {
       name: req.body.name,
       category: req.body.category,
       type: req.body.type,
-      value: req.body.value
+      value: req.body.value,
+      owner: user.id
     });
 
     res.json(transaction);
@@ -22,4 +23,4 @@ export default async (req: NowRequest, res: NowResponse) : Promise<void> => {
       error: error.message
     });
   }
-};
+});

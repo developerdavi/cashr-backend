@@ -1,4 +1,4 @@
-import { Schema, model, SchemaTypes } from 'mongoose';
+import { Schema, model, SchemaTypes, Model, Document } from 'mongoose';
 import modelExists from '../helpers/modelExists';
 
 const schema = new Schema({
@@ -13,20 +13,32 @@ const schema = new Schema({
   type: {
     type: String,
     enum: [
-      'incoming',
-      'outgoing'
+      'income',
+      'outcome'
     ],
     required: true
   },
   value: {
-    type: Boolean,
+    type: Number,
     required: true,
     min: 0
+  },
+  owner: {
+    type: SchemaTypes.ObjectId,
+    required: true
   }
 }, {
   timestamps: true
 });
 
-const Transaction = modelExists('categories') ? model('transactions') : model('transactions', schema);
+export interface Itransaction extends Document {
+  name: string;
+  category: string;
+  type: string;
+  value: number;
+  owner: string;
+}
+
+const Transaction: Model<Itransaction> = modelExists('transactions') ? model('transactions') : model('transactions', schema);
 
 export default Transaction;
