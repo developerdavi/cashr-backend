@@ -7,7 +7,9 @@ type Options = {
   admin: boolean
 }
 
-export default function withAuth(handler: NowApiHandler, options: Options): NowApiHandler {
+type Handler = (req: NowRequest, res: NowResponse, user: IUser) => void | Promise<void>;
+
+export default function withAuth(handler: Handler, options?: Options): NowApiHandler {
   return async (req: NowRequest, res: NowResponse) => {
     try {
       if (!req.headers['authorization']) {
@@ -38,17 +40,17 @@ export default function withAuth(handler: NowApiHandler, options: Options): NowA
         });
       }
   
-      if (options.admin === true && user.role !== 'admin') {
+      if (options && options.admin === true && user.role !== 'admin') {
         return res.status(403).json({
           error: 'You shouldn\'t be here'
         });
       }
+
+      return handler(req, res, user);
     } catch (error) {
       return res.status(500).json({
         error: error.message
       });
     }
-
-    return handler(req, res);
   };
 }
