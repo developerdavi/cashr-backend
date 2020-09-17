@@ -25,7 +25,7 @@ export default async (req: NowRequest, res: NowResponse) : Promise<void> => {
   try {
     userSchema.validateSync(req.body);
 
-    const exists = await User.find({
+    const exists = await User.findOne({
       email: req.body.email
     });
 
